@@ -18,6 +18,35 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
+      - name: Destroy existing bucket if it exists
+        id: destroy_bucket
+        run: |
+            BUCKET_NAME="site-ArvoreLinks-s3"
+            echo "Verificando se o bucket $BUCKET_NAME existe..."
+                
+            if aws s3api head-bucket --bucket "$BUCKET_NAME" 2>/dev/null; then
+                echo "O bucket $BUCKET_NAME existe. Removendo..."
+                  
+                # Primeiro, esvaziar o bucket (requisito para exclusão)
+                echo "Esvaziando o bucket..."
+                aws s3 rm s3://$BUCKET_NAME --recursive
+                
+                # Então, excluir o bucket
+                echo "Excluindo o bucket..."
+                aws s3api delete-bucket --bucket $BUCKET_NAME
+                
+                # Aguardar um pouco para garantir que a exclusão se propague
+                echo "Aguardando a propagação da exclusão..."
+                sleep 10
+            else
+                echo "O bucket $BUCKET_NAME não existe ou não está acessível."
+            fi
+                
+            # Definir o nome do bucket como uma variável de ambiente para uso posterior
+            echo "BUCKET_NAME=site-ArvoreLinks-s3" >> $GITHUB_ENV
+            echo "WEBSITE_URL=http://site-ArvoreLinks-s3.s3-website-us-east-1.amazonaws.com/" >> $GITHUB_ENV
+      
+
   terraform:
     name: 'Terraform'
     needs: recreate_bucket
