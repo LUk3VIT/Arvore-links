@@ -21,7 +21,7 @@ jobs:
       - name: Destroy existing bucket if it exists
         id: destroy_bucket
         run: |
-            BUCKET_NAME="site-ArvoreLinks-s3"
+            BUCKET_NAME="site-arvorelinks-s3"
             echo "Verificando se o bucket $BUCKET_NAME existe..."
                 
             if aws s3api head-bucket --bucket "$BUCKET_NAME" 2>/dev/null; then
@@ -43,8 +43,8 @@ jobs:
             fi
                 
             # Definir o nome do bucket como uma variável de ambiente para uso posterior
-            echo "BUCKET_NAME=site-ArvoreLinks-s3" >> $GITHUB_ENV
-            echo "WEBSITE_URL=http://site-ArvoreLinks-s3.s3-website-us-east-1.amazonaws.com/" >> $GITHUB_ENV
+            echo "BUCKET_NAME=site-arvorelinks-s3" >> $GITHUB_ENV
+            echo "WEBSITE_URL=http://site-arvorelinks-s3.s3-website-us-east-1.amazonaws.com/" >> $GITHUB_ENV
       
 
   terraform:
@@ -98,7 +98,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BUCKET_NAME: site-ArvoreLinks-s3
-      WEBSITE_URL: http://site-ArvoreLinks-s3.s3-website-us-east-1.amazonaws.com/
+      WEBSITE_URL: http://site-arvorelinks-s3.s3-website-us-east-1.amazonaws.com/
     
     steps:
       - name: Checkout code
