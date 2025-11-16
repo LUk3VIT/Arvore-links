@@ -97,7 +97,7 @@ jobs:
     needs: terraform
     runs-on: ubuntu-latest
     env:
-      BUCKET_NAME: site-ArvoreLinks-s3
+      BUCKET_NAME: site-arvorelinks-s3
       WEBSITE_URL: http://site-arvorelinks-s3.s3-website-us-east-1.amazonaws.com/
     
     steps:
