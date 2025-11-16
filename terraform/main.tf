@@ -35,7 +35,7 @@ resource "aws_s3_bucket_policy" "website_policy" {
     depends_on = [ aws_s3_bucket_public_access_block.website_public_access ]
 
     policy = jsonencode({
-        version = "2012-10-17"
+        Version = "2012-10-17"
         Statement = [
             {
                 Principal = "*"
